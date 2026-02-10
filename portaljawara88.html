@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://unportal.site/">
+    <link rel="icon" href="https://unportal.site/favicon.ico" type="image/x-icon">
+    
+    <!-- 1. PRELOAD LOGO (Optimasi Time-to-Interactive) -->
+    <link rel="preload" href="https://unportal.site/uploads/698a20fa057ff.png?updatedAt=1761847064791" as="image">
+
+    <title>Portal Gaming [TURBO PRO]</title>
+    <style>
+        :root {
+            --primary-color: #ff0064;
+            --secondary-color: #00ffff;
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --success-color: #00ff00;
+            --error-color: #ff0000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            cursor: crosshair;
+            position: relative;
+        }
+        
+        /* --- BACKGROUND LAYERS --- */
+        .bg-effect {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0.7) 0%, var(--bg-color) 100%);
+            z-index: 1;
+        }
+
+        /* PURE CSS DATA RAIN */
+        .data-rain {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            --rain-speed: 0.3s;
+            pointer-events: none;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 0, 100, 0.1) 2px,
+                    rgba(255, 0, 100, 0.1) 4px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 255, 255, 0.1) 2px,
+                    rgba(0, 255, 255, 0.1) 4px
+                );
+            background-size: 50px 50px, 50px 50px;
+            animation: rain-fall var(--rain-speed) linear infinite;
+            mix-blend-mode: screen;
+            transition: opacity 0.3s;
+        }
+
+        @keyframes rain-fall {
+            to { transform: translateY(50px); }
+        }
+        
+        .scanlines {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,255,255,0.05) 50%, transparent 50%);
+            background-size: 100% 4px;
+            z-index: 3;
+            pointer-events: none;
+            animation: scanlines-move 1s linear infinite;
+            transition: opacity 0.3s;
+            /* 7. Optimasi Animasi (FPS Boost) */
+            will-change: transform;
+        }
+        
+        @keyframes scanlines-move {
+            from { transform: translateY(0); }
+            to { transform: translateY(10px); }
+        }
+        
+        /* --- MAIN CONTAINER --- */
+        .container {
+            text-align: center;
+            z-index: 10;
+            padding: 20px;
+            transition: transform 0.05s ease-out;
+            will-change: transform;
+        }
+        
+        /* --- STATUS & LOGO --- */
+        .status-message {
+            font-size: 14px;
+            color: var(--secondary-color);
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px currentColor;
+            height: 20px;
+            transition: color 0.3s;
+        }
+
+        /* 6. Perbaikan Kode Struktur (Class-based colors) */
+        .status-message.status-success { color: var(--success-color); }
+        .status-message.status-error { color: var(--error-color); }
+        
+        .logo-container {
+            margin-bottom: 40px;
+        }
+        
+        .logo {
+            max-width: 250px;
+            height: auto;
+            filter: drop-shadow(0 0 20px var(--primary-color)) brightness(1.2);
+            animation: logo-pulse 1.5s ease-in-out infinite;
+            will-change: transform;
+        }
+        
+        @keyframes logo-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* --- LOADING ANIMATION --- */
+        .loader-wrapper {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 40px;
+        }
+
+        .orbit {
+            position: absolute;
+            inset: 0;
+            border: 1px solid transparent;
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+            will-change: transform;
+        }
+
+        .orbit::before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .orbit:nth-child(1) { animation-duration: 1.5s; border-top-color: var(--primary-color); }
+        .orbit:nth-child(2) { 
+            width: 80%; 
+            height: 80%; 
+            top: 10%; 
+            left: 10%; 
+            animation-duration: 1.2s; 
+            animation-direction: reverse; 
+            border-right-color: var(--secondary-color);
+        }
+        .orbit:nth-child(2)::before { background: var(--secondary-color); box-shadow: 0 0 10px var(--secondary-color); }
+        .orbit:nth-child(3) { 
+            width: 60%; 
+            height: 60%; 
+            top: 20%; 
+            left: 20%; 
+            animation-duration: 1s; 
+            border-bottom-color: var(--primary-color);
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, var(--bg-color) 40%, var(--primary-color) 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 30px var(--primary-color), inset 0 0 20px var(--secondary-color);
+            animation: core-pulse 1s ease-in-out infinite;
+            overflow: hidden;
+            will-change: transform, box-shadow;
+        }
+
+        .core::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: scan-beam 1.5s infinite;
+        }
+
+        @keyframes scan-beam {
+            0% { left: -100%; }
+            50%, 100% { left: 100%; }
+        }
+        
+        @keyframes core-pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+        
+        /* --- TEXT ELEMENTS --- */
+        .loading-text {
+            font-size: 16px;
+            color: var(--primary-color);
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            animation: text-blink 0.75s infinite;
+        }
+        
+        @keyframes text-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .powered-by {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .progress-container {
+            width: 300px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            width: 0%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .latency-display {
+            margin-top: 20px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            max-height: 100px;
+            overflow-y: auto;
+        }
+
+        .latency-item {
+            margin: 5px 0;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .latency-item.success {
+            color: var(--success-color);
+            border-left: 3px solid var(--success-color);
+        }
+
+        .latency-item.error {
+            color: var(--error-color);
+            border-left: 3px solid var(--error-color);
+        }
+
+        .skip-link {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 20;
+        }
+        .skip-link.visible { opacity: 1; }
+        /* 5. Perbaikan UX Halus (Accessibility Focus) */
+        .skip-link:focus { opacity: 1; outline: 1px solid var(--secondary-color); }
+
+        /* --- GLITCH EFFECT --- */
+        .glitch {
+            animation: glitch 0.3s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 100% { text-shadow: 0 0 10px currentColor; }
+            20% { text-shadow: -2px 0 var(--error-color), 2px 0 var(--secondary-color); }
+            40% { text-shadow: 2px 0 var(--primary-color), -2px 0 var(--secondary-color); }
+            60% { text-shadow: -2px 0 var(--secondary-color), 2px 0 var(--primary-color); }
+            80% { text-shadow: 2px 0 var(--error-color), -2px 0 var(--primary-color); }
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 600px) {
+            .logo { max-width: 200px; }
+            .loader-wrapper { width: 200px; height: 200px; }
+            .core { width: 60px; height: 60px; }
+            .status-message, .loading-text { font-size: 12px; }
+            .progress-container { width: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-effect"></div>
+    <div class="data-rain" id="dataRain"></div>
+    <div class="scanlines" id="scanlines"></div>
+
+    <main class="container" id="mainContainer">
+        <!-- 5. Perbaikan UX Halus (Accessibility ARIA) -->
+        <div class="status-message" id="statusMessage" role="status" aria-live="polite">SISTEM RESPON CEPAT AKTIF...</div>
+        
+        <div class="logo-container">
+            <img src="https://unportal.site/uploads/698a20fa057ff.png?updatedAt=1761847064791" alt="Logo" class="logo">
+        </div>
+        
+        <div class="loader-wrapper">
+            <div class="orbit"></div>
+            <div class="orbit"></div>
+            <div class="orbit"></div>
+            <div class="core"></div>
+        </div>
+        
+        <div class="loading-text" id="loadingText">MELAKUKAN PING PARALEL...</div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="latency-display" id="latencyDisplay"></div>
+        
+        <div class="powered-by">Powered By: MANSION GROUP-kenz [TURBO PRO MODE]</div>
+    </main>
+
+    <a href="#" class="skip-link" id="skipLink">Lewati >></a>
+
+    <!-- Script ditaruh di akhir body -->
+    <script>
+        console.log('%c⚡ Portal Gaming TURBO PRO Initialized ⚡', 'color: #00ffff; font-size: 16px; font-weight: bold;');
+        console.log('%cDeveloped by MANSION GROUP-kenz', 'color: #ff0064; font-size: 12px;');
+
+        const domains = [
+            "https://www.mdnjawarabss.store/register?ref=ZABABAW00B2K",
+            "https://jawara88fast.site/register?ref=ZABABAW00B2K",
+            "https://jawara88elite.site/register?ref=ZABABAW00B2K",
+            "https://jawara88fast.store/register?ref=ZABABAW00B2K"
+        ];
+
+        const loadingTexts = [
+            "MELAKUKAN PING PARALEL...",
+            "SINKRONISASI INSTAN...",
+            "MENGAKSES NEXUS...",
+            "VERIFIKASI CEPAT...",
+            "MEMUAT LINGKUNGAN..."
+        ];
+
+        const statusEl = document.getElementById('statusMessage');
+        const loadingTextEl = document.getElementById('loadingText');
+        const mainContainer = document.getElementById('mainContainer');
+        const skipLink = document.getElementById('skipLink');
+        const progressBar = document.getElementById('progressBar');
+        const latencyDisplay = document.getElementById('latencyDisplay');
+        const dataRain = document.getElementById('dataRain');
+        const scanlines = document.getElementById('scanlines');
+
+        let currentTextIndex = 0;
+        let isRedirecting = false;
+        let retryCount = 0;
+        const MAX_RETRIES = 3;
+        const RETRY_DELAY = 1000;
+        const CACHE_KEY = 'turbo_server_cache';
+        const CACHE_DURATION = 5 * 60 * 1000; // 5 menit
+
+        // --- DETECT LOW-END DEVICE & PERFORMANCE OPTIMIZATION ---
+        const isLowEndDevice = () => {
+            return navigator.hardwareConcurrency < 4 || 
+                   navigator.deviceMemory < 4 || 
+                   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        };
+
+        if (isLowEndDevice()) {
+            // 1. Optimasi Kode: Mengurangi duplikasi animasi (memperlambat speed, bukan cuma opacity)
+            document.documentElement.style.setProperty('--rain-speed', '4s');
+            document.querySelectorAll('.orbit').forEach(o => {
+                const currentDuration = getComputedStyle(o).animationDuration;
+                o.style.animationDuration = parseFloat(currentDuration) * 2 + 's';
+            });
+            dataRain.style.opacity = '0.3';
+            scanlines.style.opacity = '0.3';
+        }
+
+        // --- NETWORK DETECTION ---
+        const getTimeout = () => {
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            if (connection) {
+                if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') {
+                    return 5000;
+                } else if (connection.effectiveType === '3g') {
+                    return 3000;
+                }
+            }
+            return 2000;
+        };
+
+        // --- CACHE FUNCTIONS (With Security Validation) ---
+        const getCachedServer = () => {
+            try {
+                const cached = localStorage.getItem(CACHE_KEY);
+                if (cached) {
+                    const { server, timestamp } = JSON.parse(cached);
+                    // 4. Keamanan: Validasi domain
+                    if (!server || !server.startsWith("https://")) return null;
+                    
+                    if (Date.now() - timestamp < CACHE_DURATION) {
+                        return server;
+                    }
+                }
+            } catch (e) {
+                console.error("Cache read error:", e);
+                return null;
+            }
+            return null;
+        };
+
+        const cacheServer = (server) => {
+            // 4. Keamanan: Validasi sebelum simpan
+            if (server && server.startsWith("https://")) {
+                try {
+                    localStorage.setItem(CACHE_KEY, JSON.stringify({
+                        server,
+                        timestamp: Date.now()
+                    }));
+                } catch (e) {
+                    console.error("Cache write error:", e);
+                }
+            }
+        };
+
+        // --- PRELOAD FUNCTION ---
+        const preloadServer = (url) => {
+            const link = document.createElement('link');
+            link.rel = 'prefetch'; // Lebih efisien untuk navigasi halaman
+            link.href = url;
+            document.head.appendChild(link);
+        };
+
+        // --- PARALLAX EFFECT ---
+        document.addEventListener('mousemove', (e) => {
+            const { clientX, clientY } = e;
+            const { innerWidth, innerHeight } = window;
+            const xPos = (clientX - innerWidth / 2) / 50;
+            const yPos = (clientY - innerHeight / 2) / 50;
+            
+            mainContainer.style.transform = `translate(${xPos}px, ${yPos}px)`;
+        });
+
+        // --- DYNAMIC LOADING TEXT ---
+        const changeLoadingText = () => {
+            loadingTextEl.textContent = loadingTexts[currentTextIndex];
+            currentTextIndex = (currentTextIndex + 1) % loadingTexts.length;
+        };
+        setInterval(changeLoadingText, 1000);
+
+        // --- 2. SERVER CHECKING (Image-based Ping - Higher Accuracy) ---
+        const checkServer = (url) => {
+            return new Promise(resolve => {
+                const img = new Image();
+                const start = performance.now();
+                
+                // Gunakan origin bersih untuk mengambil favicon
+                let targetUrl;
+                try {
+                    const urlObj = new URL(url);
+                    targetUrl = `${urlObj.origin}/favicon.ico?t=${Math.random()}`;
+                } catch (e) {
+                    resolve({ success: false, latency: Infinity, url });
+                    return;
+                }
+
+                const timeout = getTimeout();
+                let hasResolved = false;
+
+                const finish = (success) => {
+                    if (hasResolved) return;
+                    hasResolved = true;
+                    resolve({ 
+                        success, 
+                        latency: performance.now() - start, 
+                        url 
+                    });
+                };
+
+                img.onload = () => finish(true);
+                img.onerror = () => finish(false);
+                
+                img.src = targetUrl;
+
+                // Fallback manual timeout
+                setTimeout(() => finish(false), timeout);
+            });
+        };
+
+        // --- FIND FASTEST SERVER ---
+        const findFastestServer = async () => {
+            const promises = domains.map(domain => checkServer(domain));
+            const results = await Promise.all(promises);
+            
+            // Update progress bar
+            progressBar.style.width = '100%';
+            
+            // Display latency results
+            latencyDisplay.innerHTML = '';
+            results.forEach((result, index) => {
+                const item = document.createElement('div');
+                item.className = `latency-item ${result.success ? 'success' : 'error'}`;
+                const serverName = result.url.match(/\/\/([^\/]+)/)[1];
+                item.textContent = `Server ${index + 1}: ${serverName} - ${result.success ? `${result.latency.toFixed(0)}ms` : 'TIMEOUT'}`;
+                latencyDisplay.appendChild(item);
+            });
+            
+            const validServers = results.filter(r => r.success);
+            return validServers.length ? validServers.reduce((a, b) => a.latency < b.latency ? a : b) : null;
+        };
+
+        // --- MAIN REDIRECT FUNCTION ---
+        const findAndRedirect = async () => {
+            // 4. Keamanan: Cegah infinite redirect loop
+            if (sessionStorage.getItem('triedRedirect')) return;
+
+            if (isRedirecting) return;
+            isRedirecting = true;
+            
+            // Check cache first
+            const cachedServer = getCachedServer();
+            if (cachedServer) {
+                const serverName = cachedServer.match(/\/\/([^\/]+)/)[1];
+                statusEl.textContent = `MENGGUNAKAN CACHE: ${serverName.toUpperCase()}`;
+                // 6. Perbaikan Struktur: Gunakan class CSS
+                statusEl.classList.add('status-success');
+                statusEl.classList.remove('status-error');
+                
+                // Set flag sebelum redirect
+                sessionStorage.setItem('triedRedirect', '1');
+                window.location.href = cachedServer;
+                return;
+            }
+            
+            statusEl.textContent = 'MENGIRIM PING KE SEMUA SERVER...';
+            progressBar.style.width = '0%';
+            
+            // Simulate progress
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += 10;
+                progressBar.style.width = `${progress}%`;
+                if (progress >= 90) clearInterval(progressInterval);
+            }, 200);
+            
+            const fastestServer = await findFastestServer();
+            
+            if (fastestServer) {
+                const serverName = fastestServer.url.match(/\/\/([^\/]+)/)[1];
+                statusEl.textContent = `SERVER TERCEPAT: ${serverName.toUpperCase()} (${fastestServer.latency.toFixed(0)}ms)`;
+                statusEl.classList.add('status-success');
+                statusEl.classList.remove('status-error');
+                
+                cacheServer(fastestServer.url);
+                preloadServer(fastestServer.url);
+                
+                setTimeout(() => {
+                    sessionStorage.setItem('triedRedirect', '1');
+                    window.location.href = fastestServer.url;
+                }, 1000);
+            } else {
+                // 3. Memperkuat Cache: Fallback jika live server mati
+                if (cachedServer) {
+                    statusEl.textContent = 'SERVER DOWN. MENGGUNAKAN CACHE...';
+                    statusEl.classList.add('status-error');
+                    setTimeout(() => {
+                        sessionStorage.setItem('triedRedirect', '1');
+                        window.location.href = cachedServer;
+                    }, 1000);
+                    return;
+                }
+
+                if (retryCount < MAX_RETRIES) {
+                    retryCount++;
+                    statusEl.textContent = `GAGAL. COBA LAGI (${retryCount}/${MAX_RETRIES})...`;
+                    statusEl.classList.add('status-error');
+                    statusEl.classList.remove('status-success');
+                    statusEl.classList.add('glitch');
+                    isRedirecting = false;
+                    
+                    setTimeout(() => {
+                        statusEl.classList.remove('glitch');
+                        findAndRedirect();
+                    }, RETRY_DELAY);
+                } else {
+                    statusEl.textContent = 'SEMUA SERVER TIDAK MERESPON.';
+                    statusEl.classList.add('status-error');
+                    statusEl.classList.remove('status-success');
+                    statusEl.classList.add('glitch');
+                    loadingTextEl.textContent = 'GAGAL TERHUBUNG';
+                    skipLink.classList.add('visible');
+                    skipLink.onclick = (e) => {
+                        e.preventDefault();
+                        sessionStorage.setItem('triedRedirect', '1');
+                        window.location.href = domains[0];
+                    };
+                }
+            }
+        };
+
+        // --- OFFLINE DETECTION ---
+        window.addEventListener('online', () => {
+            statusEl.textContent = 'KONEKSI TERSAMBUNG. MEMERIKSA SERVER...';
+            statusEl.classList.remove('status-error');
+            findAndRedirect();
+        });
+        
+        window.addEventListener('offline', () => {
+            statusEl.textContent = 'ANDA OFFLINE. TUNGGU KONEKSI...';
+            statusEl.classList.add('status-error');
+            statusEl.classList.add('glitch');
+        });
+
+        // --- SERVICE WORKER REGISTRATION ---
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then(() => {
+                console.log('Service Worker registered');
+            }).catch(err => {
+                console.log('Service Worker registration failed:', err);
+            });
+        }
+
+        // --- INITIALIZATION ---
+        window.addEventListener('load', () => {
+            findAndRedirect();
+        });
+    </script>
+</body>
+</html>
+
